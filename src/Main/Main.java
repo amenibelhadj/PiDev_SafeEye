@@ -22,15 +22,15 @@ public class Main {
         DataSource ds = DataSource.getInstance();
         System.out.println(ds.hashCode());
         
-        Reclamation r = new Reclamation(1,"aa","x","x","zzz");
-        Reclamation r1 = new Reclamation(1,"zz","ee","zz","aa");
+        Reclamation r = new Reclamation(26,"a","a","a","a");
+       
         
         ReclamationService rs = new ReclamationService();
         
-         //rs.ajouterReclamation(r1);
+         //rs.ajouterReclamation(r);
          //rs.supprimerReclamation(r);
          //rs.afficherReclamations();
-         //rs.modifierReclamation(r1);
+         //rs.modifierReclamation(r);
     
     }
     

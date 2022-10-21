@@ -20,13 +20,13 @@ import source.DataSource;
  * @author Koussay
  *
  */
+
 public class ReclamationService implements IReclamationService <Reclamation> 
 {
  @Override 
  public void ajouterReclamation(Reclamation r)
  {
      
-   
      try {
             String requete= "INSERT INTO reclamation ( description,  nom,  prenom,  email)"
                     + "VALUES (?,?,?,?)";
@@ -65,13 +65,16 @@ public class ReclamationService implements IReclamationService <Reclamation>
  public void modifierReclamation(Reclamation r)
 {
  try {
-            String requete = "UPDATE reclamation SET description=?,nom=?,prenom=?,email=?  WHERE id=?";
+            
+     String requete = "UPDATE reclamation SET id=?, description=?,nom=?,prenom=?,email=? ";
             PreparedStatement pst = DataSource.getInstance().getCnx()
                     .prepareStatement(requete);
-            pst.setString(1,r.getNom());
-            pst.setString(2,r.getPrenom());
-            pst.setString(3,r.getEmail());
-            pst.setString(5,r.getEmail());
+            pst.setInt(1, r.getId());
+            pst.setString(2, r.getDescription());
+            pst.setString(3, r.getNom());
+            pst.setString(4, r.getPrenom());
+            pst.setString(5, r.getEmail());
+            
             pst.executeUpdate();
             System.out.println("Reclamation modifiée");
         } catch (SQLException ex) {
@@ -101,7 +104,6 @@ public class ReclamationService implements IReclamationService <Reclamation>
                 r.setNom(rs.getString("nom"));
                 r.setPrenom(rs.getString("prenom"));
                 r.setEmail(rs.getString("email")); 
-                
                 ReclamationsList.add(r);
             }
         } catch (SQLException ex) {

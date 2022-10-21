@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -83,6 +84,7 @@ public class RecInterfaceController implements Initializable {
             mc=DataSource.getInstance().getCnx();
         recList = FXCollections.observableArrayList();
        
+        
         String sql="select * from reclamation";
         try {
             ste=mc.prepareStatement(sql); //preparer requeete
@@ -104,8 +106,6 @@ public class RecInterfaceController implements Initializable {
         email.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
         desc.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
        
-
-
         tableRec.setItems(recList);
         
     
@@ -124,7 +124,8 @@ public class RecInterfaceController implements Initializable {
 
     @FXML
     private void addRec(MouseEvent event) throws SQLException {
-         String nom = nomRec.getText();
+        
+        String nom = nomRec.getText();
         String prenom = prenomRec.getText(); // bch te5ou text mawjoud f label w thotou f variable
         String email = emailRec.getText();
         String description = descRec.getText();
@@ -138,21 +139,24 @@ public class RecInterfaceController implements Initializable {
          else{     
              Reclamation r=new Reclamation(1,description,nom,prenom,email);
              ReclamationService rc = new ReclamationService();
-             String sql = "select * from reclamation where description='"+description+"'";
-             ste=mc.prepareStatement(sql);
+             
              ResultSet rs=ste.executeQuery();
-             if(rs.next()==true){
-              Alert alert = new Alert(Alert.AlertType.ERROR); 
-             alert.setContentText("Description existe deja!");// taamalek alerte louken existe
+             
+             if(nom==null || prenom ==null || email==null || description==null){
+                Alert alert = new Alert(Alert.AlertType.ERROR); 
+             alert.setContentText("Veuillez remplir tous les champs!");// 
              alert.showAndWait();
               nomRec.setText(null);//ki tal9a esm w la9ab mawjoud ihotehom null
-             prenomRec.setText(null);            
+             prenomRec.setText(null);   
+                         
              }else{
+                
+                   
              rc.ajouterReclamation(r);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-             //alert.setHeaderText("Succes");
+             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+             
              alert.setContentText("Reclamation Ajoutée avec succes!");
-                alert.showAndWait();             
+                alert.showAndWait();
          }}
          refresh();
     }
@@ -162,14 +166,20 @@ public class RecInterfaceController implements Initializable {
           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Warning");
             alert.setContentText("Confirmation..!");
+            
+            String value1 = idtxt.getText();
+            
+             String nom = nomRec.getText();
+        String prenom = prenomRec.getText(); // bch te5ou text mawjoud f label w thotou f variable
+        String email = emailRec.getText();
+        String description = descRec.getText();
 
         Optional<ButtonType>result =  alert.showAndWait(); 
         if(result.get() == ButtonType.OK){
-               mc=DataSource.getInstance().getCnx();
-            String sql = "delete from reclamation where id = ?";
-            ste=mc.prepareStatement(sql);
-            ste.setString(1, idtxt.getText());// ta7ayol
-            ste.execute();
+            
+             Reclamation r= new Reclamation( Integer.parseInt(value1),description,nom,prenom,email);
+             ReclamationService rc = new ReclamationService();
+             rc.supprimerReclamation(r);
             JOptionPane.showMessageDialog(null, "Reclamation supprimer" );
         
             refresh();
@@ -185,23 +195,24 @@ public class RecInterfaceController implements Initializable {
     }
 
     @FXML
-    private void updateRec(MouseEvent event) {
+    private void updateRec(MouseEvent event)  {
               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Warning");
             alert.setContentText("Confirmation..!");
-        Optional<ButtonType>result =  alert.showAndWait(); 
-        if(result.get() == ButtonType.OK){ 
-        try{
-             mc=DataSource.getInstance().getCnx();
-             String value1 = idtxt.getText();
+       
+            String value1 = idtxt.getText();
              String value2 = nomRec.getText();
              String value3 = prenomRec.getText();
              String value4 = emailRec.getText();
              String value5 = descRec.getText();
-             
-             String sql = "update reclamation set id = '"+value1+"', nom = '"+value2+"', prenom = '"+value3+"', email = '"+value4+"', description = '"+value5+"'  where id ='"+value1+"' ";
-             ste=mc.prepareStatement(sql);
-             ste.execute();
+            
+             Optional<ButtonType>result =  alert.showAndWait(); 
+        if(result.get() == ButtonType.OK){ 
+        try{
+        
+             ReclamationService rc = new ReclamationService( );
+             Reclamation r= new Reclamation(Integer.parseInt(value1),value5,value2,value3,value4);
+             rc.modifierReclamation(r);
             JOptionPane.showMessageDialog(null, "reclamation modifié");
         }catch(Exception e){
                JOptionPane.showMessageDialog(null,e);
