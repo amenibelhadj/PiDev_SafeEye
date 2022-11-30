@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Disp{% endblock %}
+
+{% block body %}
+    <h1>Disp</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ disp.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom_medd</th>
+                <td>{{ disp.nomMedd }}</td>
+            </tr>
+            <tr>
+                <th>Start</th>
+                <td>{{ disp.start ? disp.start|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td>{{ disp.end ? disp.end|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>All_day</th>
+                <td>{{ disp.allDay ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Background_color</th>
+                <td>{{ disp.backgroundColor }}</td>
+            </tr>
+            <tr>
+                <th>Border_color</th>
+                <td>{{ disp.borderColor }}</td>
+            </tr>
+            <tr>
+                <th>Text_color</th>
+                <td>{{ disp.textColor }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_disp_index') }}">back to list</a>
+
+    <a href="{{ path('app_disp_edit', {'id': disp.id}) }}">edit</a>
+
+    {{ include('disp/_delete_form.html.twig') }}
+{% endblock %}

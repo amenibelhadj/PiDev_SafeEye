@@ -1,0 +1,47 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Disp index{% endblock %}
+
+{% block body %}
+    <h1>Disp index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom_medd</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>All_day</th>
+                <th>Background_color</th>
+                <th>Border_color</th>
+                <th>Text_color</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for disp in disps %}
+            <tr>
+                <td>{{ disp.id }}</td>
+                <td>{{ disp.nomMedd }}</td>
+                <td>{{ disp.start ? disp.start|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ disp.end ? disp.end|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ disp.allDay ? 'Yes' : 'No' }}</td>
+                <td>{{ disp.backgroundColor }}</td>
+                <td>{{ disp.borderColor }}</td>
+                <td>{{ disp.textColor }}</td>
+                <td>
+                    <a href="{{ path('app_disp_show', {'id': disp.id}) }}">show</a>
+                    <a href="{{ path('app_disp_edit', {'id': disp.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_disp_new') }}">Create new</a>
+{% endblock %}

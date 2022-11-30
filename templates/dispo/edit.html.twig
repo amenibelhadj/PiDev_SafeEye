@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Dispo{% endblock %}
+
+{% block body %}
+    <h1>Edit Dispo</h1>
+
+    {{ include('dispo/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_dispo_index') }}">back to list</a>
+
+    {{ include('dispo/_delete_form.html.twig') }}
+{% endblock %}

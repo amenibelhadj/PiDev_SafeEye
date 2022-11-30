@@ -1,0 +1,11 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New Disp{% endblock %}
+
+{% block body %}
+    <h1>Create new Disp</h1>
+
+    {{ include('disp/_form.html.twig') }}
+
+    <a href="{{ path('app_disp_index') }}">back to list</a>
+{% endblock %}

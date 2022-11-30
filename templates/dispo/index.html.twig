@@ -1,0 +1,45 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Dispo index{% endblock %}
+
+{% block body %}
+    <h1>Dispo index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Jour</th>
+                <th>Heure</th>
+                <th>Nom_medd</th>
+                <th>BackgroundColor</th>
+                <th>BorderColor</th>
+                <th>TextColor</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dispo in dispos %}
+            <tr>
+                <td>{{ dispo.id }}</td>
+                <td>{{ dispo.jour }}</td>
+                <td>{{ dispo.heure ? dispo.heure|date('H:i:s') : '' }}</td>
+                <td>{{ dispo.nomMedd }}</td>
+                <td>{{ dispo.backgroundColor }}</td>
+                <td>{{ dispo.borderColor }}</td>
+                <td>{{ dispo.textColor }}</td>
+                <td>
+                    <a href="{{ path('app_dispo_show', {'id': dispo.id}) }}">show</a>
+                    <a href="{{ path('app_dispo_edit', {'id': dispo.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dispo_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dispo{% endblock %}
+
+{% block body %}
+    <h1>Dispo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dispo.id }}</td>
+            </tr>
+            <tr>
+                <th>Jour</th>
+                <td>{{ dispo.jour }}</td>
+            </tr>
+            <tr>
+                <th>Heure</th>
+                <td>{{ dispo.heure ? dispo.heure|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nom_medd</th>
+                <td>{{ dispo.nomMedd }}</td>
+            </tr>
+            <tr>
+                <th>BackgroundColor</th>
+                <td>{{ dispo.backgroundColor }}</td>
+            </tr>
+            <tr>
+                <th>BorderColor</th>
+                <td>{{ dispo.borderColor }}</td>
+            </tr>
+            <tr>
+                <th>TextColor</th>
+                <td>{{ dispo.textColor }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dispo_index') }}">back to list</a>
+
+    <a href="{{ path('app_dispo_edit', {'id': dispo.id}) }}">edit</a>
+
+    {{ include('dispo/_delete_form.html.twig') }}
+{% endblock %}
